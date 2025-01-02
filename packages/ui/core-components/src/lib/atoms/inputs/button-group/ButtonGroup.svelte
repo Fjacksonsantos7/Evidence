@@ -9,6 +9,7 @@
 	import { setContext } from 'svelte';
 	import { buildReactiveInputQuery } from '@evidence-dev/component-utilities/buildQuery';
 	import ErrorChart from '../../../unsorted/viz/core/ErrorChart.svelte';
+	import Info from '../../../unsorted/ui/Info.svelte';
 	import ButtonGroupItem from './ButtonGroupItem.svelte';
 	import { page } from '$app/stores';
 	import HiddenInPrint from '../shared/HiddenInPrint.svelte';
@@ -38,6 +39,9 @@
 
 	export let color = 'hsla(207, 65%, 39%, 1)';
 	$: colorStore = resolveColor(color);
+
+	/** @type {string | undefined} */
+	export let description = undefined;
 
 	const valueStore = writable(null);
 
@@ -107,7 +111,12 @@
 				: `inline-block overflow-scroll no-scrollbar align-bottom w-fit max-w-full flex-col mb-3 ml-0 mr-2`}
 		>
 			{#if title}
-				<span class="text-xs font-medium block mb-0.5">{title}</span>
+				<span class="text-xs font-medium block mb-0.5"
+					>{title}
+					{#if description}
+						<Info {description} />
+					{/if}
+				</span>
 			{/if}
 			<div
 				class={display === 'tabs'
